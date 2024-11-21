@@ -2,29 +2,28 @@
 Software package collection for dynamical Girsanov path reweighting  
    
 ## Girsanov path reweighting
-Dynamical reweighting methods are becoming more and more important to study complex mechanisms of chemical processes, whose direct simulations of the full state-space at the correct statistical weight are impossible. 
+Dynamical reweighting methods are becoming more important to study complex mechanisms of chemical processes, whose direct simulations of the full state-space at the correct statistical weight are impossible. 
 In order to gain a better understanding of the applicability of Girsanov path reweighting to chemical processes in complex environments, a broad network between already high-quality methods must be created.
-The [article](???) presents the basis for how Girsanov path reweighting can be integrated into any simulation and analysis software. 
+The [article](https://pubs.acs.org/doi/full/10.1021/acs.jpcb.4c01702) presents the basis for how Girsanov path reweighting can be integrated into any simulation and analysis software. 
 We also provide a ready-to-use simulation program that enables on-the-fly estimation of reweighting factors and a unified procedure for estimating a reweighted dynamical model from this data.
 
 ## Software
-- simulation programs: [openmmtools](https://github.com/bkellerlab/openmmtools)
-  - reporter function: [ReweightingReporter](https://github.com/bkellerlab/reweightingtools/simulation/reweightingreporter.py)
-- analysis package: [deeptime](https://github.com/bkellerlab/deeptime)
+- simulation programs: [openmmtools](https://github.com/anyschaefer/openmmtools);
+  we started a [pull request](https://github.com/choderalab/openmmtools/pull/729)
+  - reporter function: [ReweightingReporter](https://github.com/bkellerlab/reweightingtools/blob/main/reweightingtools/simulation/openmmSimulation/reweightingreporter.py)
+- analysis package: [deeptime](https://github.com/deeptime-ml/deeptime)
 
 ### Setup
-1. download existing software with reweighting modification
+1. create new environment (e.g. RWGHTSoftware) with `conda create -n RWGHTSoftware python=3.11` 
+2. install the simulation and analysis tools
 
-   a) go to the respective [GitHub repository](https://github.com/bkellerlab/deeptime) 
+   a) download [existing simulation software](https://github.com/anyschaefer/openmmtools) with reweighting modification
 
    b) clone the respective package by
    	- copying the "HTTPS clone URL" link that appears after selecting the code icon and 
    	- run `git clone [url]` in the directory you want to download it to
-   	  
-3. create new environment (e.g. RWGHTSoftware) with `conda create -n RWGHTSoftware python=3.11` 
-4. install the package and all corresponding dependencies, e.g. `conda install -c anaconda matplotlib`, `conda install -c anaconda spyder`
 
-   a) openmmtools: install the openmmtools extension in cloned openmmtools folder via `pip insatll .`, further possible dependencies are
+   c) install the openmmtools extension in cloned openmmtools folder via `pip insatll .`, further possible dependencies are
    
      `conda install -c conda-forge openmm`
 
@@ -38,13 +37,16 @@ We also provide a ready-to-use simulation program that enables on-the-fly estima
 
      `conda install -c numba numba`
    
-   b) deeptime: install the deeptime extension in cloned deeptime folder via `pip insatll .`  
-   
+
+   d) go to [deeptime](https://github.com/deeptime-ml/deeptime) and follow the installation instructions
+
+4. install further dependencies, e.g. `conda install -c anaconda matplotlib`, `conda install -c anaconda spyder`
+  
 5. create scripts for simulation and analysis with Girsanov reweighting or use the setup and templates in [reweightingtools](https://github.com/bkellerlab/reweightingtools)
 
-   Example studies are discussed in [Implementation of Girsanov reweighting in OpenMM and Deeptime](-).
+   Example studies are discussed in [Implementation of Girsanov reweighting in OpenMM and Deeptime](https://pubs.acs.org/doi/full/10.1021/acs.jpcb.4c01702).
 
-a) The propagation of a system, cf. Fig. 3 and Fig. 5 b-d, according to a Langevin symmetric splittig scheme at a unbiased (`openMM_simulation()`) or biased potential (`openMM_biased_simulation()`) can be realized with the help of some top-level functions of the [reweightingtools simulation-api](https://github.com/bkellerlab/reweightingtools/blob/main/reweightingtools/simulation/api.py). A detailed description of the setup can be found in the respective function documentation, e.g. here for the biased simulation:
+a) The propagation of a system, cf. Fig. 3 and Fig. 5 b-d, according to a Langevin symmetric splittig scheme at a unbiased (`openMM_simulation()`) or biased potential (`openMM_biased_simulation()`) can be realized with the help of some top-level functions of the [reweightingtools simulation-api](https://github.com/bkellerlab/reweightingtools/blob/main/reweightingtools/simulation/openmmSimulation/api.py). A detailed description of the setup can be found in the respective function documentation, e.g. here for the biased simulation:
 
   ```py
    # Import
@@ -90,7 +92,7 @@ a) The propagation of a system, cf. Fig. 3 and Fig. 5 b-d, according to a Langev
 
 
     
-b) Dynamic properties of a system, such as implicit timescales (`deeptime_implied_timescales()`) or dominant eigenvectors (`deeptime_eigenvectors()`) of a Markov state models (MSM) (cf. Fig. 4 or Fig. 5 b-d) can be analyzed with the help of some top-level functions of the [reweightingtools analysis-api](https://github.com/bkellerlab/reweightingtools/blob/main/reweightingtools/analysis/api.py). For more customization of the analysis see the [deeptime documentation](https://deeptime-ml.github.io/latest/api/index_markov_tools.html#msm-analysis). Here an example for evaluating implied timescales: 
+b) Dynamic properties of a system, such as implicit timescales (`deeptime_implied_timescales()`) or dominant eigenvectors (`deeptime_eigenvectors()`) of a Markov state models (MSM) (cf. Fig. 4 or Fig. 5 b-d) can be analyzed with the help of some top-level functions of the [reweightingtools analysis-api](https://github.com/bkellerlab/reweightingtools/blob/main/reweightingtools/analysis/deeptimeMSM/api.py). For more customization of the analysis see the [deeptime documentation](https://deeptime-ml.github.io/latest/api/index_markov_tools.html#msm-analysis). Here an example for evaluating implied timescales: 
 
 ```py
 # Import
